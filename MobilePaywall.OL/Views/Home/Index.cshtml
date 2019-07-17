@@ -1,0 +1,41 @@
+﻿@model MobilePaywall.Ol.Core.Managers.EntranceTableManager
+
+<table>
+  <tr>
+    <td>UserSessionGuid</td>
+    <td>UserSessionCreated</td>
+    <td>Pxid</td>
+    <td>ServiceName</td>
+    <td>MobileOperator</td>
+    <td>IPAddress</td>
+    <td>Msisdn</td>
+    <td>ExternalPaymentRequestGuid</td>
+    <td>PaymentRedirectUrl</td>
+    <td>ExternalPaymentGuid</td>
+    <td>PaymentStatus</td>
+    <td>PaymentCreated</td>
+    <td>TransactionID</td>
+    <td>TransactionCreated</td>
+  </tr>
+  @foreach (MobilePaywall.Ol.Core.Tables.EntranceTable table in Model.Result)
+  {
+    <tr>
+      <td>@table.UserSessionGuid</td>
+      <td>@table.UserSessionCreated.ToString()</td>
+      <td>@table.Pxid</td>
+      <td>@table.ServiceName</td>
+      <td>@table.MobileOperator</td>
+      <td>@table.IPAddress</td>
+      <td>@table.Msisdn</td>
+      <td>@table.ExternalPaymentRequestGuid</td>
+      <td>@table.PaymentRedirectUrl</td>
+      <td>@table.ExternalPaymentGuid.Value</td>
+      <td>@table.PaymentStatus</td>
+      <td>@table.PaymentCreated</td>
+      <td>@table.TransactionID</td>
+      <td>@table.TransactionCreated</td>
+    </tr>
+  } 
+</table>
+ 
+

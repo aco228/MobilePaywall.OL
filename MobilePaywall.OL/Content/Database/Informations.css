@@ -1,0 +1,60 @@
+﻿#informationLeftAlign{ width:50%;float:left; }
+#informationRightAlign{ width:50%;float:right; }
+
+.informationBlock{
+    position:relative;
+    margin-right:20px;
+    padding:3px;
+    margin-top:-1px;
+    border: 1px solid rgb(213, 222, 156);
+}
+.informationBlockRight{ float:right; }
+.informationBlockLeft{ float:left; }
+.informationBlockClosed{
+    height:27px; overflow:hidden;
+}
+.informationTitleLoading{
+    display:block;
+    right:5px; top:10px;
+    position:absolute;
+    width:15px; height:15px;
+    background-color:black;
+    background-image:url('../../Images/preloaders/712.GIF');
+    background-size:contain;
+    background-color:rgba(0,0,0,0);
+    background-position:center;
+    display:none;
+}
+.informationTitle{
+    /* width:100%; */
+    font-size:15px;
+    padding:5px;
+    padding-left:10px;
+    cursor:hand;
+    cursor:pointer;
+    color: #886749;
+    font-size:14px;
+    background: linear-gradient(to right, #fdf7e2, #f3fdbe);
+    /* background-color: #f3f3c5; */
+}
+.informationBody{
+}
+.informationBodyItem{
+    margin-top:3px;
+    background-color: #3a3a3a;
+    color: #a5a5a5;
+    font-size:13px;
+    padding:5px;
+    overflow:hidden;
+}
+.inromationTable{
+    width:100%;
+    border-collapse:collapse;
+    color:inherit;
+    font-size:inherit;
+    text-shadow:1px 1px 1px rgba(0,0,0,.5);
+}
+.inromationTable tr:nth-child(odd)
+{
+    background-color: #3c3c3c;
+}

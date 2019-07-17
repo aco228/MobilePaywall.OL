@@ -1,0 +1,27 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Kiwi clicks automation</title>
+
+  <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+  @Scripts.Render("~/js")
+  @Scripts.Render("~/Kiwi/js")
+  @Styles.Render("~/Kiwi/css")
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+  <div id="kiwi_content">
+    @RenderBody();
+  </div>
+
+  <script>
+    var _system = null;
+
+    $(document).ready(function () {
+      _system = new System();
+    });
+  </script>
+
+
+</body>
+</html>

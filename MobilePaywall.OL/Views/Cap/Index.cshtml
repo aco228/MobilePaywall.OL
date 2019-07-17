@@ -1,0 +1,311 @@
+﻿@model TemplateServiceCapModel
+@{ 
+  Random rnd = new Random();
+}
+<!doctype html>
+<html>
+<head>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+  <script type="text/javascript" src="~/Content/Cap/progressbar.js"></script>
+  <link rel="stylesheet" type="text/css" href="~/Content/Cap/default/progressbar.css">
+  <link rel="stylesheet" type="text/css" href="~/Content/Cap/default/summary.holder.css">
+  @*<link rel="stylesheet" type="text/css" href="~/Content/Cap/jquery-ui-like/progressbar.css">*@
+  <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+  <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+  <script src="/signalr/hubs"></script>
+  <title>Service caps</title>
+</head>
+<body>
+
+  <div id="global_summary_holder">
+
+  </div>
+  <div class="serviceHolder serviceHolder_closed" country="NONO">
+    <div class="serviceHeader" style="background-color: #55a3f3;">
+      <div class="serviceTitle">Filter</div>
+      <div class="serviceLogo"></div>
+    </div>
+    <div class="serviceBody">
+
+      <strong>Filter by name: </strong>
+      <input type="text" value="" placeholder="Service name" id="filter_serviceName" style="width:70%;"  onkeypress="filterServicesOnFilterInput();"/>
+      <br/>
+
+      <strong>Filter by country: </strong> 
+      <div>
+        @foreach (MobilePaywall.Data.Country country in Model.Countries)
+        {
+          <input class="filter_country" type="checkbox" value="@country.TwoLetterIsoCode" checked /> <label>@country.GlobalName</label> <br/>
+        }
+      </div>
+
+      
+      <div style="clear:both"></div>
+    </div>
+  </div>
+
+  <div id="summary_holder">
+    <div class="close_caps">
+      <div class="summary_holder_h1">Close caps</div>
+      <div id="close_caps_holder"></div>
+      @*<div class="close_cap_obj"> <span class="close_cap_obj_serviceName">gr.shopvauchers</span> - <span class="close_cap_obj_capName">NULL</span> - <span class="close_cap_obj_current">80/20</span> </div>*@
+    </div>
+    <div class="last_transactions">
+      <div class="summary_holder_h1">Last transactions</div>
+      <div id="last_transactions_holder"></div>
+      @*<div class="service_transaction"> <span class="service_transaction_name">gr.shopvauchers</span> - <span class="service_transaction_date">11:58</span> </div>*@
+    </div>
+
+  </div>
+
+  @foreach (MobilePaywall.Data.Service service in Model.Services)
+  {
+    List<MobilePaywall.Data.TemplateServiceCap> caps = MobilePaywall.Web.PaywallCapManager.GetAllCaps(service);
+
+    <div id="service_@service.ID" class="serviceHolder serviceHolderFilterable serviceHolder_closed service_country_@service.FallbackCountry.TwoLetterIsoCode" serviceName="@service.Name">
+      <div class="serviceHeader" @*style="background-color: rgb(@rnd.Next(85, 244), @rnd.Next(85, 244), @rnd.Next(85, 244));"*@ >
+        <div class="serviceOverlayProgress"></div>
+        <div class="serviceCountry" style="background-image:url('../../../images/_flags/@string.Format("{0}.png", service.FallbackCountry.TwoLetterIsoCode.ToLower())');"></div>
+        <div class="serviceTitle">@service.Name</div>
+      </div>
+      <div class="serviceBody">
+        @foreach (MobilePaywall.Data.TemplateServiceCap cap in caps)
+        {
+          cap.CheckIfValuesAreOld();
+          int hour = cap.LastTransactionDate.Hour;
+          int minute = cap.LastTransactionDate.Minute;
+          int second = cap.LastTransactionDate.Second;
+          TimeSpan difference = DateTime.Now - cap.LastTransactionDate;
+          
+          <div class="serviceCap" id="tscid_@cap.ID" current="@cap.TempCurrentValue" value="@cap.Value" name="@string.Format("{0}", (cap.MobileOperator != null ? cap.MobileOperator.Name : "NULL"))">
+            <div class="service_cap_locked @Html.Raw(cap.IsLocked ? "" : "service_cap_locked_unlocked")">LOCKED</div>
+            <div class="service_cap_locked_overlay"></div>
+
+            <div class="progress"><div class="barOverflow"><div class="bar"></div></div><span>10</span>%</div> <br/>
+            <div class="serviceCapName">@string.Format("{0}", (cap.MobileOperator != null ? cap.MobileOperator.Name : "NULL"))</div>
+            <div class="serviceCapValue">@string.Format("{0}/{1}", cap.TempCurrentValue, cap.Value)</div>
+            <div class="serviceCapTime" title="@string.Format("{0}:{1}:{2}", (hour < 0 ? "0" + hour : hour.ToString()), (minute < 10 ? "0" + minute : minute.ToString()), (second < 10 ? "0" + second : second.ToString()))" 
+                 hour="@hour" minute="@minute" second="@second">
+              @string.Format("{0}:{1}:{2}", difference.Hours, difference.Minutes, difference.Seconds)
+            </div>
+            @*<div class="progressBar jquery-ui-like"><div></div></div>*@
+          </div>
+        }
+        <div style="clear:both"></div>
+      </div>
+    </div>
+  }
+
+  <div id="popupHolder"></div>
+  <audio id="audio" src="~/Content/Cap/beep.wav" autostart="false"></audio>
+
+  <div id="template" hidden>
+    <div class="popup" style="display:none">
+      <div class="popup_countryIcon"></div>
+      <div>
+        <span class="popup_serviceName"></span> 
+        <span class="popup_serviceDescription"></span>
+      </div>
+    </div>
+    <div class="service_transaction"> <span class="service_transaction_name">gr.shopvauchers</span> - <span class="service_transaction_date">11:58</span> </div>
+    <div class="close_cap_obj"> <span class="close_cap_obj_serviceName">gr.shopvauchers</span> - <span class="close_cap_obj_capName">NULL</span> - <span class="close_cap_obj_current">80/20</span> </div>
+  </div> 
+
+  <script>
+    $(document).ready(function () {
+      
+      $('.serviceHeader').click(function () {
+        var parent = $(this).closest('.serviceHolder');
+        if (parent.hasClass('serviceHolder_closed'))
+          parent.removeClass('serviceHolder_closed');
+        else
+          parent.addClass('serviceHolder_closed');
+      });
+
+      $('.serviceCap').each(function () {
+        var current = parseInt($(this).attr('current'));
+        var value = parseInt($(this).attr('value'));
+        var procentige = Math.ceil((current > value ? value : current) / value * 100);
+        progressBar(procentige, $(this).find('.progressBar'));
+      });
+
+      setInterval(function () {
+        $('.serviceHolder').each(function () {
+          if ($(this).hasClass('serviceHolder_closed')) return;
+          $('.serviceCapTime').each(function () {
+            var capTimeEleme = $(this);
+
+            var split = capTimeEleme.text().split(':');
+            if (split.length != 3) {
+              console.log('error with ' + capTimeEleme.text());
+              return;
+            }
+
+            var hour = parseInt(split[0]);
+            var minute = parseInt(split[1]);
+            var second = parseInt(split[2]);
+
+            second += 1;
+            if (second > 59)
+            { minute++; second = 0; }
+            if (minute > 59)
+            { hour++; minute = 0; }
+
+            capTimeEleme.text((hour < 10 ? '0' + hour : hour) + ":" + (minute < 10 ? '0' + minute : minute) + ":" + (second < 10 ? '0' + second : second));
+          });
+        });
+      }, 1000);
+
+      $('.filter_country').change(function () {
+        var elem = $(this);
+        var country = $(this).attr('value');
+        console.log(country);
+        $('.service_country_' + country).each(function () {
+          if (!elem.is(':checked'))
+            $(this).css('display', 'none');
+          else
+            $(this).css('display', 'block');
+        });
+      });
+
+      updateGlobalStatus();
+    });
+
+    $(function () {
+      var chat = $.connection.serviceCapHub;
+      chat.client.update = function (data) {
+        console.log(data);
+        document.getElementById('audio').play();
+
+        if (data.type == "service")
+          onSignalRServiceCallback(data);
+
+        if (data.capID == -1)
+          return;
+
+        var cap = $('#tscid_' + data.capID);
+        cap.attr('current', data.current);
+        cap.attr('value', data.value);
+        cap.find('.serviceCapValue').text(data.current + "/" + data.value);
+
+        var serviceCapTime = cap.find('.serviceCapTime');
+        serviceCapTime.attr('title', data.hourCreated + ":" + data.minuteCreated + ":" + data.secondCreated)
+        serviceCapTime.text(data.hour + ":" + data.minute + ":" + data.second);
+
+        updateGlobalStatus();
+      };
+      $.connection.hub.start().done(function () { console.log('connection started'); });
+    });
+
+    // SUMMARY: When we receive service callback from singalR
+    function onSignalRServiceCallback(data)
+    {
+      var popupID = ID('popup');
+      var popup = $('#template').find('.popup').clone();
+      popup.attr('id', popupID);
+      popup.addClass('_popupService_' + data.serviceName);
+      popup.find('.popup_serviceName').text(data.serviceName);
+      popup.find('.popup_countryIcon').css('background-image', 'url(../../../images/_flags/' + data.country + '.png)');
+      popup.find('.popup_serviceDescription').text(data.serviceDescription);
+      $('#popupHolder').append(popup);
+      popup.fadeIn(150, function () {
+        setTimeout(function () {
+          popup.fadeOut(500, function () { $(this).remove(); })
+        }, 2500);
+      });
+
+      var html = '<div class="service_transaction"> <span class="service_transaction_name">' + data.serviceName + '</span> - <span class="service_transaction_date">' + data.hourCreated + ':' + data.minuteCreated + '</span> </div>';
+      $('#last_transactions_holder').prepend(html);
+
+      var count = 0, limit = 60;
+      $('.last_transactions').find('.service_transaction').each(function () {
+        count++;
+        if (count > limit)
+          $(this).remove();
+      });
+    }
+
+
+    // SUMMARY: Update global satus for all services
+    function updateGlobalStatus()
+    {
+      $('.serviceHolder').each(function () {
+        var serviceElem = $(this);
+        var globalCurrent = 0;
+        var globalValue = 0;
+
+        $(this).find('.serviceCap').each(function () {
+          var capElem = $(this);
+          var capValue = parseInt($(this).attr('value'));
+          var capCurrent = parseInt($(this).attr('current'));
+          var reference = capValue - capCurrent;
+          
+          // this CAP is near to close
+          if(reference <= 5 && reference > 0)
+          {
+            if($('#close_cap_obj_' + capElem.attr('id')).length == 0)
+            {
+              var elem = $('#template').find('.close_cap_obj');
+              elem.attr('id', 'close_cap_obj_' + capElem.find('id'));
+              elem.find('.close_cap_obj_serviceName').text(serviceElem.attr('serviceName'));
+              elem.find('.close_cap_obj_capName').text(capElem.attr('name'));
+              elem.find('.close_cap_obj_current').text(capCurrent + '/' + capValue);
+              $('#close_caps_holder').prepend(elem);
+            }
+            else
+              $('#close_cap_obj_' + capElem.attr('id')).find('.close_cap_obj_current').text(capCurrent + '/' + capValue);
+          }
+
+          // this CAP is closed
+          if (reference <= 0) {
+            $('#close_cap_obj_' + capElem.attr('id')).remove();
+            capElem.addClass("capFinished");
+            $(this).find('.service_cap_locked_overlay').fadeIn(500);
+          }
+
+          capCurrent = (capCurrent > capValue) ? capValue : capCurrent;
+          globalCurrent += capCurrent; globalValue += capValue;
+
+          var procentige = Math.ceil(capCurrent / capValue * 100);
+          var progressbarElem = capElem.find('.progress');
+          var $bar = progressbarElem.find(".bar");
+          var $val = progressbarElem.find("span");
+          $({ p: 0 }).animate({ p: procentige }, { duration: 3000, easing: "swing", step: function (p) { $bar.css({ transform: "rotate(" + (45 + (p * 1.8)) + "deg)", }); $val.text(p | 0); } });
+
+        });
+        
+        var procentige = Math.ceil(globalCurrent / globalValue * 100);
+        $(this).find('.serviceOverlayProgress').css('width', procentige + '%');
+
+      });
+    }
+
+    function filterServicesOnFilterInput()
+    {
+      var compare = $('#filter_serviceName').val();
+      console.log(compare);
+      $('.serviceHolder').each(function () {
+        var name = $(this).find('.serviceTitle').text();
+        if (!$(this).hasClass('serviceHolderFilterable'))
+          return;
+
+        if (name.indexOf(compare) !== -1) 
+          $(this).css('display', 'block');
+        else
+          $(this).css('display', 'none');
+      });
+    }
+
+    function ID(prefix)
+    {
+      if (typeof prefix == undefined) prefix = ""; else prefix += "_";
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for (var i = 0; i < 15; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+      return prefix + text;
+    }
+		
+  </script>
+
+</body>
+</html>

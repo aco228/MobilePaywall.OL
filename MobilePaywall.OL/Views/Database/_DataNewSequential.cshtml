@@ -1,0 +1,113 @@
+﻿@model DataTableModel
+
+<div style="display:none" id="lastCommand">
+  @Model.Command
+</div>
+
+<table id="cacheTable" style="display:none; visibility:hidden; pointer-events:none; opacity:0;"></table>
+<table id="tableData" created="@DateTime.Now.ToString("HH:mm:ss")"></table>
+
+@*
+  Transaction duplicate fix  
+*@
+
+<script>
+
+  var timesLoaded = 0;
+  var lastOlCacheID = '';
+  var count = 0;
+  var lastTransactionID = -1;
+  var limit = 0;
+  var totalTime = 0;
+
+  $(document).ready(function () {
+
+    limit = parseInt(_manager.configuration._limit);
+    console.log('All limit = ' + limit);
+    loadNewPart();
+
+  });
+
+  function loadNewPart()
+  {
+    var loadLimit = 25;
+    var start = new Date();
+
+    console.log('limit=' + limit + ", count=" + count);
+    if (limit - count < loadLimit)
+      loadLimit = limit - count;
+
+    if (loadLimit < 1)
+    {
+      loadSequentialFinished();
+      return;
+    }
+
+    var params = _manager.configuration.params();
+    params.Limit = loadLimit.toString();
+    params.SequentialSearch = '';
+    params.OLCacheID = lastOlCacheID;
+    params.ReturnView = '_DataNewSequentialEntry';
+
+    $.ajax({
+      url: '/database/LoadNew',
+      method: 'POST',
+      data: params,
+      success: function (response) {
+
+        $('#cacheTable').html(response);
+        var elementsLoaded = $('#cacheTable').find('.tr_cache_tableEntry').length;
+        
+        if (elementsLoaded < 1)
+        {
+          loadSequentialFinished();
+          return;
+        }
+
+        timesLoaded++;
+
+        var time = new Date() - start;
+        totalTime += time;
+        $('#database_time').text(totalTime + "ms /" + time + "ms");
+
+        count += elementsLoaded;
+        $('#database_count').text(count + " /.:./" + timesLoaded);
+        console.log('Elements loaded' + elementsLoaded);
+
+        $('#tableData').append(response);
+        $("#tableData .tr_cache_tableEntryNonDisplay").removeClass("tr_cache_tableEntryNonDisplay");
+        
+        lastOlCacheID = $('#cacheTable tr').last().attr('olCacheID');
+        loadNewPart();
+      }
+    });
+  }
+
+
+  function loadSequentialFinished()
+  {
+    $('#database_count').text($('#tableData .tr_cache_tableEntry').length + " /" + timesLoaded);
+
+    $('.td_transaction').each(function () {
+      var tid = parseInt($(this).text());
+
+      if (tid == NaN)
+        return;
+
+      if (tid == lastTransactionID) {
+        $(this).closest('tr').addClass('tr_duplicate');
+        var currentCount = parseInt($('#database_count').text()) - 1;
+        console.log(currentCount + ' ' + $('#database_count').text());
+        $('#database_count').text(currentCount);
+      }
+
+      lastTransactionID = tid;
+    });
+
+    _manager.refreshManager();
+  }
+
+
+</script>
+
+

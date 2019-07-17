@@ -1,0 +1,179 @@
+html{ background: #2f2f2f url(../bg.jpg); }
+body{
+    background: url(../bg_glow.jpg) no-repeat center top;
+    font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+    height: 600px;
+}
+
+.default {
+	background: #292929;
+	border: 1px solid #111;	
+	border-radius: 5px;	
+	overflow: hidden;
+	box-shadow: 0 0 5px #333;				
+}
+.default div {
+	background-color: #1a82f7;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0099FF), to(#1a82f7)); 
+	background: -webkit-linear-gradient(top, #0099FF, #1a82f7); 
+	background: -moz-linear-gradient(top, #0099FF, #1a82f7); 
+	background: -ms-linear-gradient(top, #0099FF, #1a82f7); 
+	background: -o-linear-gradient(top, #0099FF, #1a82f7);
+}
+
+.progressBar {
+	position:absolute;
+	top: 19px;
+	margin-left: 150px;
+	width: 500px;
+	height: 22px;
+}
+
+.progressBar div {
+	height: 100%;
+	color: #fff;
+	text-align: right;
+	font-size: 12px;
+	line-height: 22px;
+	width: 0;
+}
+
+.serviceHolder_closed { height: 26px; overflow:hidden; }
+.serviceHolder { margin:10px; box-shadow:0px 0px 15px rgba(0,0,0,.3); width:80%; }
+.serviceHeader{
+	position:relative;
+	background-color: #f3e755;
+	cursor:hand;
+	cursor: pointer;
+	padding:5px;
+}
+.serviceOverlayProgress{
+	position:absolute;
+	height:100%;
+	width:0%;
+	top:0px;
+	left:0px;
+	background-color: rgba(202, 71, 71, 0.25);
+	pointer-event:none;
+}
+.serviceCountry {
+	position:absolute; top:6px; left:10px;
+	width: 16px;; height: 11px;
+	background-color:black;
+}
+.serviceTitle{ font-weight:bold; margin-left: 30px; }
+.serviceLogo{ }
+.serviceBody { background-color:rgba(255,255,255,.3); padding: 10px; }
+.serviceCap:hover{ background-color:rgba(255,255,255,.9); }
+.serviceCap {
+	position:relative;
+	background-color:rgba(255,255,255,.4);
+	margin:5px;
+	padding:2px 15px;
+	width: 200px;
+	float:left;
+	border: 1px solid #a2a2a2;
+	box-shadow:0px 0px 20px rgba(0,0,0,.2);
+}
+.progress{/* margin-left: 50px; */ left:45px; }
+
+@keyframes blinkera { 50% { opacity: .8; } }
+.serviceCap_close {animation: blinkera 1s linear infinite; }
+.serviceCapName { font-size:14px; margin-bottom:2px; margin-top:50px; width: 100%; text-align:center;}
+.serviceCapInfo { }
+.serviceCapValue{
+	width: 200; text-align:center;
+	background-color:green;
+	padding: 2px 10px; border-radius:9px; 
+	color:white;
+ }
+.service_cap_locked_unlocked{ opacity:.1; }
+.service_cap_locked {
+	position:absolute;
+	top:3px;
+	right:2px;
+	font-size:9px;
+	background-color: #98ff8c;
+	padding: 0px 10px;
+	border-radius: 3px;
+}
+.service_cap_locked_overlay:hover{ opacity:.1; animation:none;}
+.service_cap_locked_overlay{
+  display:none;
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0px;
+	left:0px;
+	background-color: rgba(255, 255, 255, 0.4);
+	z-index:100;
+	text-align:center;
+	line-height: 110px;
+	text-shadow: 1px 1px 1px white;
+	font-weight:bold;
+	opacity: .5;
+	background-image: url(http://services.app.mobilepaywall.com/images/template/overlay/lines.png);
+}
+ @keyframes blinker {   50% { opacity: .8; } }
+.serviceCapTime {  margin-top:0px;  
+	width: 200px; text-align:center;
+	font-size:11px;
+	color:gray;
+}
+
+
+#popupHolder {
+	position:fixed; bottom:5px; width:100%;
+}
+#template { display:none; }
+
+.popup {
+	position:relative;
+	width:50%;
+	padding:3px;
+	margin-left:25%;
+	background-color: #83ff83;
+	box-shadow: 0px 0px 20px #7bf77b;
+	font-size:12px;
+	color: #5d5d5d;
+	margin-bottom:4px;
+}
+.popup_countryIcon{ 
+	position:absolute; top:6px; left:10px;
+	width: 16px;; height: 11px;
+	background-color:black;	
+}
+.popup_serviceName { margin-left: 30px; font-weight:bold; }
+.popup_serviceDescription {font-size:11px;color: #50b750;}
+
+
+/*
+  Progress bar new
+*/
+
+.progress{
+  position: relative;
+  margin: 4px;
+  float:left;
+  text-align: center;
+}
+.barOverflow{ /* Wraps the rotating .bar */
+  position: relative;
+  overflow: hidden; /* Comment this line to understand the trick */
+  width: 90px; height: 45px; /* Half circle (overflow) */
+  margin-bottom: -14px; /* bring the numbers up */
+}
+.bar{
+  position: absolute;
+  top: 0; left: 0;
+  width: 90px; height: 90px; /* full circle! */
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 5px solid #eee;     /* half gray, */
+  border-bottom-color: #0bf;  /* half azure */
+  border-right-color: #0bf;
+}

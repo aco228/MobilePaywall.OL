@@ -1,0 +1,78 @@
+﻿@model OLCacheModel
+
+<table id="table_header">
+  <tr>
+    <td>C</td>
+    <td>UserSessionCreated</td>
+    <td>Pxid</td>
+    <td>ServiceName</td>
+    <td>MobileOperator</td>
+    <td>IPAddress</td>
+    <td>Msisdn</td>
+    <td>PaymentRequestStatus</td>
+    <td>PaymentStatus</td>
+    <td>PaymentCreated</td>
+    <td>AccessPolicy</td>
+    <td>TransactionID</td>
+    <td>TransactionCreated</td>
+  </tr>
+</table>
+<table id="tableData" count="1">
+  <tbody>
+    <tr class="tr_@Model.PaymentStatus">
+      <td>
+        <img src="@string.Format("../Images/_Flags/{0}.png", Model.CountryCode)" alt="@Model.CountryName" title="@Model.CountryName">
+      </td>
+      <td class="">
+        @Model.GetDate(Model.SessionCreated)
+      </td>
+      <td class="@{Html.Raw(string.IsNullOrEmpty(Model.Pxid) ? "" : "td_null"); } usPxid">
+        @Model.Pxid
+      </td>
+      <td class="">
+        @Model.ServiceName
+      </td>
+      <td class="@{Html.Raw(string.IsNullOrEmpty(Model.MobileOperatorName) ? "" : "td_null"); }">
+        @Model.MobileOperatorName
+      </td>
+      <td class="@{Html.Raw(string.IsNullOrEmpty(Model.IPAddress) ? "" : "td_null"); } usIPAddress">
+        @Model.IPAddress
+      </td>
+      <td class="@{Html.Raw(string.IsNullOrEmpty(Model.Msisdn) ? "" : "td_null"); }">
+        @Model.Msisdn
+      </td>
+      <td class="@{Html.Raw(!string.IsNullOrEmpty(Model.PaymentRequestStatus) ? "" : "td_null"); }">
+        @Model.PaymentRequestStatus
+      </td>
+      <td class="@{Html.Raw(!string.IsNullOrEmpty(Model.PaymentStatus) ? "" : "td_null"); }">
+        @Model.PaymentStatus
+      </td>
+      <td class="@{Html.Raw(!string.IsNullOrEmpty(Model.PaymentCreated) ? "" : "td_null"); }">
+        @Model.GetDate(Model.PaymentCreated)
+      </td>
+      <td class="@{Html.Raw(!string.IsNullOrEmpty(Model.AccessPolicy) ? "" : "td_null"); }">
+        @Model.AccessPolicy
+      </td>
+      <td class="@{Html.Raw(!string.IsNullOrEmpty(Model.TransactionID) ? "" : "td_null"); } td_transaction">
+        @Model.TransactionID
+      </td>
+      <td class="@{Html.Raw(!string.IsNullOrEmpty(Model.TransactionCreated) ? "" : "td_null"); }">
+        @Model.GetDate(Model.TransactionCreated)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<script>
+  $(document).ready(function () {
+    if ($('#tableData').find('tr').hasClass('tr_Cancelled'))
+      $('body').css('background-color', '#a56da5');
+    else if ($('#tableData').find('tr').hasClass('tr_Successful'))
+      $('body').css('background-color', '#3e7d3e');
+    else if ($('#tableData').find('tr').hasClass('tr_Failed'))
+      $('body').css('background-color', 'rgb(119, 53, 53)');
+    else if ($('#tableData').find('tr').hasClass('tr_Pending'))
+      $('body').css('background-color', '#3f5c82');
+  });
+</script>

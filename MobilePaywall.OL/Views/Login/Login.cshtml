@@ -1,0 +1,39 @@
+﻿@model LoginModel
+@{
+  Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+@Styles.Render("~/Login/css")
+@Scripts.Render("~/Login/js")
+
+<div id="container">
+
+  <div id="login_container">
+    <div id="login_header">
+      <div id="login_title">Please login</div>
+    </div>
+    <div id="login_body">
+      <input type="text" id="input_username" placeholder="Username" value="@Model.Username" />
+      <input type="password" id="input_password" placeholder="Password" />
+    </div>
+    <div id="message"></div>
+    <div id="login_submit">Log in</div>
+  </div>
+
+</div>
+
+<div id="service_background">
+  @foreach (LoginServiceModel service in Model.Services)
+  {
+    <div class="service" style="background-image:url('@service.Url');"></div>
+  }
+</div>
+
+<script>
+  var _login = null;
+  $(document).ready(function () {
+    _login = new Login();
+    _login.redirect = "@Model.OriginalRequest";
+  });
+</script>

@@ -1,0 +1,144 @@
+﻿@model StatisticModel
+@{
+  Layout = "~/Views/_Shared/_Database.cshtml";
+}
+<style>
+  body{ overflow-x:hidden;}
+  .dataObj{margin-top: 15px; padding:15px; background-color: #FFF;  }
+</style>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+  function Initiate() {  }
+
+  google.load('visualization', '1', { packages: ['corechart', 'line', 'geochart'] });
+  google.setOnLoadCallback(function () {
+    drawSessionData();
+    sessionHour();
+    drawSessopmMap();
+    paymentRequest();
+    payment();
+    drawMap();
+  });
+
+  // SUMMARY: basic chart with session infroamtions and all others
+  function drawSessionData() {
+    var data = google.visualization.arrayToDataTable([
+    ['Data', 'User Session', 'Lookup', 'Paymnet request', 'Payment', 'Subsequent', 'Transactions'],
+    ['@Model.FromString / @Model.ToString', @Model.Table.UserSession.UserSession, @Model.Table.UserSession.Lookup, @Model.Table.UserSession.PaymentRequest, @Model.Table.UserSession.Payment, @Model.Table.UserSession.Subsequent, @Model.Table.UserSession.Transaction]
+    ]);
+
+    var options = { title: 'User Session Data', chartArea: { width: '50%' }, hAxis: { title: 'Number of entries', minValue: 0 }, vAxis: { title: 'Data' } };
+    var chart = new google.visualization.BarChart(document.getElementById('sessionData'));
+    chart.draw(data, options);
+  }
+
+  function sessionHour() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Day');
+    data.addColumn('number', 'Session');
+    data.addColumn('number', 'Payment Reqeust');
+    data.addColumn('number', 'Payment');
+    data.addColumn('number', 'Transaction');
+
+    data.addRows([
+      [1, 37.8, 80.8, 41.8, 41.8],
+      [2, 30.9, 69.5, 32.4, 32.4],
+      [3, 25.4, 57, 25.7, 25.7],
+      [4, 11.7, 18.8, 10.5, 10.5],
+      [5, 11.9, 17.6, 10.4, 10.4],
+      [6, 8.8, 13.6, 7.7, 7.7],
+      [7, 7.6, 12.3, 9.6, 9.6],
+      [8, 12.3, 29.2, 10.6, 10.6],
+      [9, 16.9, 42.9, 14.8, 14.8],
+      [10, 12.8, 30.9, 11.6, 11.6],
+      [11, 5.3, 7.9, 4.7, 4.7],
+      [12, 6.6, 8.4, 5.2, 5.2],
+      [13, 4.8, 6.3, 3.6, 3.6],
+      [14, 4.2, 6.2, 3., 3.4]
+    ]);
+
+    var options = {
+      chart: {
+        title: 'Hourly tracking',
+        subtitle: '(hours on the bottom are not representin real hours)'
+      }
+    };
+
+    var chart = new google.charts.Line(document.getElementById('sessionHour'));
+    chart.draw(data, options);
+  }
+
+  function drawSessopmMap() {
+    var data = google.visualization.arrayToDataTable([
+      ['Country', 'Visits'],
+      @foreach(MobilePaywall.Ol.Core.Tables.UserSessionCountryStatisticTable country in Model.Table.UserSessionCountry)
+      {
+        @Html.Raw(string.Format("['{0}', {1}],", country.Country, country.Num));
+      }
+      ['', 0]
+    ]);
+
+    var options = {};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('sessionMap'));
+    chart.draw(data, options);
+  }
+
+  function paymentRequest() {
+    var data = google.visualization.arrayToDataTable([
+      ['Status', 'Num'],
+      @for (int i = 0; i < Model.Table.PaymentReqests.Names.Count; i++ )
+      { @Html.Raw(string.Format("['{0} ({1})', {1}],", Model.Table.PaymentReqests.Names.ElementAt(i), Model.Table.PaymentReqests.Values.ElementAt(i))); }
+      ['0', 0]
+    ]);
+
+    var options = {
+      title: 'Payment reqeust statuses',
+      pieHole: 0.4, is3D: true,
+      colors: ['orange', 'blue', 'green', 'red']
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('paymentRequest'));
+    chart.draw(data, options);
+  }
+
+  function payment() {
+    var data = google.visualization.arrayToDataTable([
+      ['Status', 'Num'],
+      @for (int i = 0; i < Model.Table.Payments.Names.Count; i++ )
+      { @Html.Raw(string.Format("['{0} ({1})', {1}],", Model.Table.Payments.Names.ElementAt(i), Model.Table.Payments.Values.ElementAt(i))); }
+      ['0 (0)', 0]
+    ]);
+
+    var options = {
+      title: 'Payment statuses',
+      pieHole: 0.4, is3D: true,
+      colors: ['orange', 'blue', 'green', 'red', 'purple']
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('payment'));
+    chart.draw(data, options);
+  }
+
+  function drawMap() {
+    var data = google.visualization.arrayToDataTable([
+      ['Country', 'Transactions'],
+      @foreach (MobilePaywall.Ol.Core.Tables.UserSessionCountryStatisticTable country in Model.Table.TransactionCountry)
+      { @Html.Raw(string.Format("['{0}', {1}],", country.Country, country.Num)); }
+      ['', 0]
+    ]);
+
+    var options = {};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('map'));
+    chart.draw(data, options);
+  }
+
+</script>
+
+<div id="sessionData" class="dataObj" style="width: 100%; height: 500px;"></div>
+<div id="sessionHour" class="dataObj" style="width: 100%; height: 500px;"></div>
+<div id="sessionMap" class="dataObj" style="width: 100%; height: 450px;"></div>
+<div id="paymentRequest" class="dataObj" style="width: 100%; height: 250px;"></div>
+<div id="payment" class="dataObj" style="width: 100%; height: 250px;"></div>
+<div id="map" class="dataObj" style="width: 100%; height: 450px; margin-bottom:15px;"></div>

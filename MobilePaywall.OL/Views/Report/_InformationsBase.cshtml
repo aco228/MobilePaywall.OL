@@ -1,0 +1,98 @@
+﻿@{
+  string uid = ViewBag.UserSessionID;
+}
+<link href="~/Content/Database/Informations.css" rel="stylesheet" />
+<script src="~/Scripts/Database/InformationsBlockManager.js"></script>
+
+<div id="informationLeftAlign">
+    
+
+  <div class="informationBlock informationBlockClosed" methodname="UserSession">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> User Session</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Customer">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Customer</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="LookupSession">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Lookup session</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="PaymentRequest">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Payment request</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Payment">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Payment</div>
+    <div class="informationBody"></div>
+  </div>
+
+
+  <div class="informationBlock informationBlockClosed" methodname="PaymentAccessPolicy">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> AccessPolicy</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Transaction">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Transaction</div>
+    <div class="informationBody"></div>
+  </div>
+
+</div>
+
+<div id="informationRightAlign">
+
+
+  <div class="informationBlock informationBlockClosed" methodname="Service">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Service</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Application">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Application</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Product">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Product</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Merchant">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Merchant</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="ContentAccessPolicy">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Content access policy</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="PaymentProvider">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Payment provider</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Kiwiclick">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Kiwiclicks info</div>
+    <div class="informationBody"></div>
+  </div>
+
+  <div class="informationBlock informationBlockClosed" methodname="Bananaclicks">
+    <div class="informationTitle"> <span class="informationTitleLoading"></span> Bananaclicks info</div>
+    <div class="informationBody"></div>
+  </div>
+
+</div>
+
+
+  <div style="clear:both"></div>
+  <script>
+    var _informationsmanager = null;
+    $(document).ready(function () { _informationsmanager = new InformationsBlockManager('@uid'); });
+  </script>

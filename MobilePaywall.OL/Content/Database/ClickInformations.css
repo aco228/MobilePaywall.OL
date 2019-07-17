@@ -1,0 +1,115 @@
+﻿#infoBox_buttonHolder{
+    position:absolute;
+    bottom:5px; left:5px;
+}
+.infoBox_button:hover{opacity:1;}
+.infoBox_button{
+    float:left;
+    /* background: linear-gradient(to right, #dcd6a8, #f8ff5c); */
+    padding: 1px 10px;
+    margin: 2px;
+    border-radius:5px;
+    font-size:12px;
+    background-color: #d1d0ac;
+    cursor:hand;
+    cursor:pointer;
+    opacity:.8;
+    box-shadow:0px 0px 5px rgba(0,0,0,.5);
+}
+
+.infoBox{
+    position:relative;
+    background-color: #292828;
+    /* width:70%; */
+    height:120px;
+    /* margin-left:15%; */
+    /* margin-top:10px; 
+    /* margin-bottom:10px; */
+    box-shadow:0px 0px 15px rgba(0,0,0,.3);
+    border-radius:9px;
+    background-image:url('../../images/report/lines.png');
+    opacity:0;
+    transition:all 1s;
+}
+.infoBox_in{}
+.infoBox_overlay{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    background: linear-gradient(to right, #818aca, #7fb584);
+    opacity:.2;
+    z-index:500;
+    border-radius:9px;
+    transition:background 1s;
+}
+.ib_serviceLogo{
+    position:absolute;
+    width:150px; height:50px;
+    top:5px; left:5px;
+    background-size:135px;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+.ib_visit{
+    position:absolute;
+    color: #a7a7a7;
+    font-size:11px;
+    top:10px;
+    left:202px;
+    text-shadow:1px 1px 1px black;
+}
+.ib_country{
+    position:absolute;
+    width:120px;
+    height:80.4px;
+    top:17px;
+    right:15px;
+    background-size:135px;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+    box-shadow:0px 0px 10px black;
+}
+
+.ib_error{
+    position:absolute;
+    bottom:5px;
+    left:10px;
+    color: #ef8686;
+    font-size:12px;
+    text-shadow:1px 1px 0px black;
+}
+
+
+.infoBox_options{
+    position:absolute;
+    left:450px;
+    bottom
+}
+.infoBox_option:nth-child(1){ border-radius:0px 0px 0px 15px; }
+.infoBox_option:nth-child(3){ border-radius:0px 0px 15px 0px; }
+.infoBox_option:hover{ opacity:1;}
+.infoBox_option{
+    float:left;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.48);
+    color: rgb(218, 218, 218);
+    background-color: #d23434;
+    font-size:12px;
+    /* text-transform:uppercase; */
+    padding: 2px 30px;
+    opacity:.6;
+    transition:all .5s;
+    cursor:hand;
+    cursor:pointer;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.55);
+}
+.infoBox_option_disabled{
+    pointer-events:none; opacity:.3;
+}
+
+
+.tr_cache_tableEntry{ transition: all 1s; }
+.tr_cache_tableEntryNonDisplay{ opacity: 0; }

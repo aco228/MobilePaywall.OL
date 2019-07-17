@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FAD43FD-7DB3-4344-85B4-024A73FBCC41}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MobilePaywall.Ol.Core</RootNamespace>
+    <AssemblyName>MobilePaywall.Ol.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\CashflowDatabase.cs" />
+    <Compile Include="Database\DatabaseBase.cs" />
+    <Compile Include="Database\DataObjectBase.cs" />
+    <Compile Include="Database\MobilePaywallDatabase.cs" />
+    <Compile Include="Data\EntranceTableData.cs" />
+    <Compile Include="Data\WebLogTableData.cs" />
+    <Compile Include="Filters\FilterBase.cs" />
+    <Compile Include="Filters\LoginFilter.cs" />
+    <Compile Include="Helpers\CashflowHelper.cs" />
+    <Compile Include="Helpers\ClientHelper.cs" />
+    <Compile Include="Helpers\ViewDateConverter.cs" />
+    <Compile Include="Managers\CallbackLogManager.cs" />
+    <Compile Include="Managers\CashflowLogManager.cs" />
+    <Compile Include="Managers\InformationManager.cs" />
+    <Compile Include="Managers\MobileOperatorManager.cs" />
+    <Compile Include="Managers\OverlayLogManager.cs" />
+    <Compile Include="Managers\StatisticManager.cs" />
+    <Compile Include="Managers\UserRequestManager.cs" />
+    <Compile Include="Managers\WebLogManager.cs" />
+    <Compile Include="Models\AndroidInputModel.cs" />
+    <Compile Include="Models\ClickInformationModel.cs" />
+    <Compile Include="Models\DatabaseReportModel.cs" />
+    <Compile Include="Models\DataTableModel.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
+    <Compile Include="Models\InformationsBaseTableModel.cs" />
+    <Compile Include="Models\LiveModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\OLCacheModel.cs" />
+    <Compile Include="Models\ReportModel.cs" />
+    <Compile Include="Models\StatisticModel.cs" />
+    <Compile Include="Models\TemplateServiceCapModel.cs" />
+    <Compile Include="Models\TimelineModel.cs" />
+    <Compile Include="PaywallContext.cs" />
+    <Compile Include="PaywallController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Managers\EntranceTableManager.cs" />
+    <Compile Include="Tables\CashflowBehaviorModelTable.cs" />
+    <Compile Include="Tables\EntranceTable.cs" />
+    <Compile Include="Tables\EntranceTableAndroid.cs" />
+    <Compile Include="Tables\EntranceTableNew.cs" />
+    <Compile Include="Tables\UserRequestTable.cs" />
+    <Compile Include="Tables\MobileOperatorTable.cs" />
+    <Compile Include="Tables\StatisticTable.cs" />
+    <Compile Include="Tables\WebLogTable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Cashflow\trunk\Cashflow.Client\Cashflow.Client.csproj">
+      <Project>{e4e07af9-8b9b-4c22-bc21-a1b69281ff15}</Project>
+      <Name>Cashflow.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Cashflow\trunk\Cashflow.Message\Cashflow.Message.csproj">
+      <Project>{256b7409-9ced-4ac4-912a-ef8d4c819801}</Project>
+      <Name>Cashflow.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\MobilePaywall\trunk\MobilePaywall.Core.Sql\MobilePaywall.Core.Sql.csproj">
+      <Project>{82a22140-e04d-46cd-bdd4-6b81c83ab9af}</Project>
+      <Name>MobilePaywall.Core.Sql</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\MobilePaywall\trunk\MobilePaywall.Core\MobilePaywall.Core.csproj">
+      <Project>{4e086f05-dedb-4399-8876-c988cb6cddc8}</Project>
+      <Name>MobilePaywall.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\Senti\trunk\Senti.Core\Senti.Core.csproj">
+      <Project>{fc2aa55a-f0ca-423a-8f45-2f21fc6982ce}</Project>
+      <Name>Senti.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\Senti\trunk\Senti.Data\Senti.Data.csproj">
+      <Project>{ffa64eb3-3d17-4dc1-8b8f-1e4b884ac7e5}</Project>
+      <Name>Senti.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

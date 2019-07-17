@@ -1,0 +1,27 @@
+﻿@model LogModel
+@{
+  
+}
+
+@foreach(List<string[]> list in Model.Informations)
+{
+  <div class="document">
+    <div class="document_header openclose">
+      <strong></strong>
+    </div>
+    <div class="document_body">
+      <table class="table_data">
+        @for (int i = 0; i < list.Count; i++ )
+        {
+          string[] data = list.ElementAt(i);
+          string id = string.Format("{0}_{1}", Model.InformationsLabel, i);
+                  
+          <tr id="@id">
+            @foreach(string column in data)
+            { <td>@column</td> }
+          </tr>
+        }
+      </table>
+    </div>
+  </div>  
+}

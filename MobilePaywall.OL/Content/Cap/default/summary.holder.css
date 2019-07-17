@@ -1,0 +1,21 @@
+﻿#summary_holder { position:fixed; right:0px; width:19%; top:0px; height:100%; color: #252525; }
+.summary_holder_h1{
+    font-size:14px; text-align:center; text-shadow:1px 1px 4px white;
+    padding: 5px;
+}
+.close_caps {
+    height:40%;
+    overflow: auto;
+}
+.close_cap_obj{background-color: #f3e755;padding:0px 1px;margin: 2px 0px; }
+.close_cap_obj_serviceName { font-weight:bold; padding: 0px 5px; }
+.close_cap_obj_capName {background-color: #fff8a6;padding:0px 10px;border-radius: 5px;}
+.close_cap_obj_current {background-color: #fff9b0;padding:0px 10px; border-radius: 5px;}
+
+.last_transactions{
+    height:60%;
+    overflow: auto;
+}
+.service_transaction { background-color:#C3FFC3; padding:0px 1px; margin: 2px 0px; }
+.service_transaction_name { font-weight:bold; padding: 0px 5px; }
+.service_transaction_date{background-color: #8fff8f;padding:0px 10px;}

@@ -1,0 +1,201 @@
+﻿@model ReportModel
+@{
+  Layout = "~/Views/_Shared/_Database.cshtml";
+  ViewBag.HtmlTitle = "Report for session " + Model.PaywallGuid;
+}
+
+<link href="~/Content/Database/ClickInformations.css" rel="stylesheet" />
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/Highlight/js")
+@Styles.Render("~/Highlight/css")
+@Scripts.Render("~/Report/js")
+@Styles.Render("~/Report/css")
+
+<div id="_cacheInformations"></div>
+<div id="clickBasicInformations"></div>
+
+@*<div class="block block_closed" id="informations">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="informations_loadingTime"> </div>
+    Informations
+    <div class="block_loading" id="informations_loading"></div>
+  </div>
+  <div class="block_body" id="informations_body"></div>
+</div>*@
+
+<div class="block block_closed" id="newInformations">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="newInformations_loadingTime"> </div>
+    <div class="block_icon block_icon_clickInformations"></div>
+    Click Informations
+    <div class="block_loading" id="newInformations_loading"></div>
+  </div>
+  <div class="block_body">
+    <div id="newInformations_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="paywall" _onclick="loadPaywall">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="paywall_loadingTime"> </div>
+    <div class="block_icon block_icon_paywall"></div>
+    Paywall reports
+    <div class="block_loading" id="paywall_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadPaywall">Refresh</div>
+    </div>
+    <div id="paywall_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="paywall2">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="paywall2_loadingTime"> </div>
+    <div class="block_icon block_icon_paywall"></div>
+    Paywall reports (fast)
+    <div class="block_loading" id="paywall2_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadPaywall2">Refresh</div>
+    </div>
+    <div id="paywall2_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="cashflow">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="cashflow_loadingTime"> </div>
+    <div class="block_icon block_icon_cashflow"></div>
+    Cashflow reports
+    <div class="block_loading" id="cashflow_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadCashflow">Refresh</div>
+    </div>
+    <div id="cashflow_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="cashflowNew" _onclick="loadCashflowNew">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="cashflowNew_loadingTime"> </div>
+    <div class="block_icon block_icon_cashflowNew"></div>
+    Cashflow reports (ReferenceID)
+    <div class="block_loading" id="cashflowNew_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadCashflow">Refresh</div>
+    </div>
+    <div id="cashflowNew_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="callback" _onclick="loadCallback">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="callback_loadingTime"> </div>
+    <div class="block_icon block_icon_callback"></div>
+    Callback logs
+    <div class="block_loading" id="callback_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadCallback">Refresh</div>
+    </div>
+    <div id="callback_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="requests">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="requests_loadingTime"> </div>
+    <div class="block_icon block_icon_requests"></div>
+    Requests
+    <div class="block_loading" id="requests_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadRequests">Refresh</div>
+    </div>
+    <div id="requests_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="overlay" _onclick="loadOverlay">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="overlay_loadingTime"> </div>
+    <div class="block_icon block_icon_overlay"></div>
+    Overlay logs
+    <div class="block_loading" id="overlay_loading"></div>
+  </div>
+  <div class="block_body">
+    <div class="block_body_menu">
+      <div class="block_menu_item" _onclick="loadOverlay">Refresh</div>
+    </div>
+    <div id="overlay_body"></div>
+  </div>
+</div>
+
+<div class="block block_closed" id="location" _onclick="loadLocation">
+  <div class="block_header openclose">
+    <div class="block_loadTime" id="location_loadingTime"> </div>
+    <div class="block_icon block_icon_location"></div>
+    Location
+    <div class="  " id="location_loading"></div>
+  </div>
+  <div class="block_body" id="location_body">
+    <div id="googleMap" style="width:100%;height:450px;"></div>
+  </div>
+</div>
+
+<script>
+
+  var _visual = new Visual();
+
+  function Initiate() {
+    _manager = new ReportManager();
+    _manager.paywallGuid = '@Model.PaywallGuid';
+    _manager.userSessionID = '@Model.UserSessionID';
+    _manager.cashflowGuid = '@Model.CashflowGuid';
+    _manager.pxid = '@Model.Pxid';
+    _manager.date = '@Model.Date';
+    _manager.ip = '@Model.IP';
+
+    _manager.loadClickInformations();
+    _manager.loadOLCachce();
+    //_manager.loadInformations();
+    _manager.loadNewInformations();
+    //_manager.loadPaywall();
+    _manager.loadPaywall2();
+    //_manager.loadPaywallFromLogDatabase();
+    _manager.loadCashflow();
+    //_manager.loadCashflowNew();
+    _manager.loadRequests();
+    //_manager.loadOverlay();
+
+    $('pre code').each(function (i, block) {
+      hljs.highlightBlock(block);
+    });
+
+    if (this.pxid == '') { $('#overlay').remove(); }
+
+  };
+
+  // SUMMARY: Initialization of google maps ( called from _manager.loadLocation )
+  function initMap() {
+    var myLatLng = { lat: _manager.locationData.lat, lng: _manager.locationData.lng };
+    var mapProp = {
+      center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
+      zoom: 6,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+
+    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    var marker = new google.maps.Marker({ position: myLatLng, map: map, title: 'Location' });
+  }
+
+</script>

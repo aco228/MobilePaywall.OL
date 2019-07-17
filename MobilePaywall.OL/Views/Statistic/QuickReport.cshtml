@@ -1,0 +1,275 @@
+﻿@model QuickReportModel
+@Styles.Render("~/QuickReport/css")
+
+<div id="quickReportContainer">
+  
+  <table id="qrcTable">
+    <tr id="tr_userSession" class="counter_reference">
+      <td><span class="span_tr_status span_tr_status_Count">(*)</span> User Sessions</td>
+      <td>
+        <span class="value">0</span>
+      </td>
+    </tr>
+    <tr id="tr_identificationSUCC">
+      <td><span class="span_tr_status span_tr_status_Success">(Success)</span> User sessions with customer</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span> 
+      </td>
+    </tr>
+
+
+
+    <tr class="tr_separator"> <td></td><td></td>  </tr>
+
+
+
+    <tr id="tr_paymentRequest_all" class="counter_reference pr">
+      <td><span class="span_tr_status span_tr_status span_tr_status_Count">(ALL)</span> Payment Request</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_paymentRequest_Initialized">
+      <td><span class="span_tr_status span_tr_status_Initialized">(Initialized)</span> Payment Request </td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_paymentRequest_Complete">
+      <td><span class="span_tr_status span_tr_status_Complete">(Complete)</span> Payment Request</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_paymentRequest_Failure">
+      <td><span class="span_tr_status span_tr_status_Failed">(Failed)</span> Payment Request</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_paymentRequest_Pending">
+      <td><span class="span_tr_status span_tr_status_Pending">(Pending)</span> Payment Request</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_paymentRequest_PaymentExists">
+      <td><span class="span_tr_status span_tr_status_PaymentExists">(PaymentExists)</span> Payment Request </td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+
+
+
+
+    <tr class="tr_separator"> <td></td><td></td>  </tr>
+
+
+
+
+    <tr id="tr_payment_all" class="counter_reference">
+      <td><span class="span_tr_status span_tr_status_Count">(ALL)</span> Payment</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_payment_Initialized">
+      <td><span class="span_tr_status span_tr_status_Initialized">(Initialized)</span> Payment</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_payment_Successful">
+      <td><span class="span_tr_status span_tr_status_Success">(Success)</span> Payment</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_payment_Failed">
+      <td><span class="span_tr_status span_tr_status_Failed">(Failed)</span> Payment</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_payment_Pending">
+      <td><span class="span_tr_status span_tr_status_Peding">(Peding)</span> Payment</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_payment_Cancelled">
+      <td><span class="span_tr_status span_tr_status_Cancel">(Cancel)</span> Payment</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+
+
+
+    <tr class="tr_separator"> <td></td><td></td>  </tr>
+    
+
+
+    <tr id="tr_transaction">
+      <td><span class="span_tr_status span_tr_status_Success">(Success)</span> Transaction</td>
+      <td>
+        <span class="value">0</span>
+        <span class="procentage">10%</span>
+      </td>
+    </tr>
+    <tr id="tr_subsequent">
+      <td><span class="span_tr_status span_tr_status_Success">(Success)</span> Subsequents</td>
+      <td>
+        <span class="value">0</span>
+      </td>
+    </tr>
+
+
+  </table>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    loadUserSessions();
+    loadPaymentReqests();
+    loadPayments();
+    LoadTransactions();
+  });
+
+  function loadUserSessions() {
+    _system.ajax('/statistic/LoadUserSessions', _manager.configuration.params(), 'POST', function (response) {
+      response = JSON.parse(response);
+
+      $('#tr_userSession').find('.value').text(response.sessions);
+      $('#tr_identificationSUCC').find('.value').text(response.identified);
+      onFinish();
+    });
+  }
+
+  function loadPaymentReqests() {
+    _system.ajax('/statistic/LoadPaymentReqests', _manager.configuration.params(), 'POST', function (response) {
+      response = JSON.parse(response);
+
+      $('#tr_paymentRequest_Complete').find('.value').text(response.Complete);
+      $('#tr_paymentRequest_Failure').find('.value').text(response.Failure);
+      $('#tr_paymentRequest_Pending').find('.value').text(response.Pending);
+      $('#tr_paymentRequest_Initialized').find('.value').text(response.Initialized);
+      $('#tr_paymentRequest_PaymentExists').find('.value').text(response.PaymentExists);
+
+      var all = response.Complete + response.Failure + response.Pending + response.Initialized + response.PaymentExists;
+      $('#tr_paymentRequest_all').find('.value').text(all);
+      onFinish();
+    });
+  }
+
+  function loadPayments(){
+    _system.ajax('/statistic/LoadPayments', _manager.configuration.params(), 'POST', function (response) {
+      response = JSON.parse(response);
+
+      $('#tr_payment_Initialized').find('.value').text(response.Initialized);
+      $('#tr_payment_Successful').find('.value').text(response.Successful);
+      $('#tr_payment_Failed').find('.value').text(response.Failed);
+      $('#tr_payment_Pending').find('.value').text(response.Pending);
+      $('#tr_payment_Cancelled').find('.value').text(response.Cancelled);
+
+      var all = response.Initialized + response.Successful + response.Failed + response.Pending + response.Cancelled;
+      $('#tr_payment_all').find('.value').text(all);
+      onFinish();
+    });
+  }
+
+  function LoadTransactions() {
+    _system.ajax('/statistic/LoadTransactions', _manager.configuration.params(), 'POST', function (response) {
+      response = JSON.parse(response);
+
+      $('#tr_transaction').find('.value').text(response.transactions);
+      $('#tr_subsequent').find('.value').text(response.subsequents);
+      onFinish();
+    });
+  }
+
+
+  var loaded = 0;
+  function onFinish()
+  {
+    if (loaded != 3)
+    {
+      loaded++;
+      return;
+    }
+
+    var userSession = parseInt($('#tr_userSession').find('.value').text());
+    var temp = 0;
+
+    // procentage for identification
+    var identifications = parseInt($('#tr_identificationSUCC').find('.value').text());
+    var identificationProcentige = Math.ceil(identifications * (100 / userSession));
+    $('#tr_identificationSUCC').find('.procentage').text(identificationProcentige + '%');
+
+    // payment request
+    var paymentRequests = parseInt($('#tr_paymentRequest_all').find('.value').text());
+    var paymentRequestProcentage = Math.ceil(paymentRequests * (100 / identifications));
+    $('#tr_paymentRequest_all').find('.procentage').text(paymentRequestProcentage + '% (based on identifications)');
+
+    temp = Math.ceil(parseInt($('#tr_paymentRequest_Initialized').find('.value').text()) * (100 / paymentRequests));
+    $('#tr_paymentRequest_Initialized').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_paymentRequest_Complete').find('.value').text()) * (100 / paymentRequests));
+    $('#tr_paymentRequest_Complete').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_paymentRequest_Failure').find('.value').text()) * (100 / paymentRequests));
+    $('#tr_paymentRequest_Failure').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_paymentRequest_Pending').find('.value').text()) * (100 / paymentRequests));
+    $('#tr_paymentRequest_Pending').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_paymentRequest_PaymentExists').find('.value').text()) * (100 / paymentRequests));
+    $('#tr_paymentRequest_PaymentExists').find('.procentage').text(temp + '%');
+  
+
+    // payments
+    var payments = parseInt($('#tr_payment_all').find('.value').text());
+    var paymentProcentage = Math.ceil(payments * (100 / identifications));
+    $('#tr_payment_all').find('.procentage').text(paymentProcentage + '% (based on identifications)');
+
+    temp = Math.ceil(parseInt($('#tr_payment_Initialized').find('.value').text()) * (100 / payments));
+    $('#tr_payment_Initialized').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_payment_Successful').find('.value').text()) * (100 / payments));
+    $('#tr_payment_Successful').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_payment_Failed').find('.value').text()) * (100 / payments));
+    $('#tr_payment_Failed').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_payment_Pending').find('.value').text()) * (100 / payments));
+    $('#tr_payment_Pending').find('.procentage').text(temp + '%');
+
+    temp = Math.ceil(parseInt($('#tr_payment_Cancelled').find('.value').text()) * (100 / payments));
+    $('#tr_payment_Cancelled').find('.procentage').text(temp + '%');
+
+
+    // transactions
+    var transactions = parseInt($('#tr_transaction').find('.value').text());
+    var transactionsProcentage = Math.ceil(transactions * (100 / identifications));
+    $('#tr_transaction').find('.procentage').text(transactionsProcentage + '% (based on identifications)');
+
+    $('.procentage').css('display', 'initial');
+  }
+
+</script>

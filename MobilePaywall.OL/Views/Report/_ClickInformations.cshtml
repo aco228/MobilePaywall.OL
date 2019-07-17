@@ -1,0 +1,70 @@
+﻿@model ClickInformationModel
+
+<div class="infoBox">
+
+  <div id="infoBox_buttonHolder">
+    <div class="infoBox_button" id="infoBox_button_cancel">Cancel payment</div>
+    <div class="infoBox_button" id="infoBox_button_closeAccessPolicy">Close AccessPolicy</div>
+    <div style="clear:both"></div>
+  </div>
+
+  <div class="infoBox_in">
+    <div class="infoBox_overlay"></div>
+    <div class="infoBox_options">
+      @*<div class="infoBox_option @Html.Raw(!Model.HasAccessPolicy ? "infoBox_option_disabled" : "")">Close access policy</div>
+      <div class="infoBox_option @Html.Raw(!Model.HasPayment ? "infoBox_option_disabled" : "")">Cancel subscription</div>
+      <div class="infoBox_option @Html.Raw(!Model.HasPayment ? "infoBox_option_disabled" : "")">Refund</div>*@
+    </div>
+
+    <div class="ib_serviceLogo" style="background-image:url(@Model.Logo)"></div>
+    <div class="ib_country" style="background-image:url(@Model.Country)"></div>
+    
+    <div class="ib_error"></div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    setTimeout(function () {
+      $('.infoBox').css('opacity', '1');
+    }, 500);
+
+    
+    buttonAction('infoBox_button_cancel', 'Are you sure you want to cancel this payment on paywall side?', 'ClickinformationsAction_CancelPayment');
+    buttonAction('infoBox_button_closeAccessPolicy', 'Are you sure you want to cancel AccessPolicy for this customer?', 'ClickinformationsAction_CancelAccessPolicy');
+
+    function buttonAction(btnID, confirmMessage, urlParameter) {
+      $('#' + btnID).click(function () {
+        if ($(this).attr('inuse') == 'true') return;
+
+        var btn = $('#' + btnID);
+        _visual.Confirm(confirmMessage, 'Yes', 'No', function () {
+          btn.attr('orginalText', btn.text());
+          btn.text('Please wait..');
+          btn.attr('inuse', 'true');
+
+          send(urlParameter, { uid: @Model.UserSessionID }, function (response) {
+            btn.text(btn.attr('orginalText'));
+            btn.attr('inuse', 'false');
+            _visual.Alert(response.message, 'Close',  function(){
+              if(response.status)
+                location.reload();
+            });
+          });
+        });
+      });
+    }
+
+    function send(url, data, succ_func){
+      $.ajax({
+        method: 'POST',
+        data: data,
+        url: '/ClickInformations/' + url,
+        success: function (response) { succ_func(response); }
+      });
+    }
+
+
+  });
+</script>
+

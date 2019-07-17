@@ -1,0 +1,12 @@
+﻿@model ErrorModel
+@{
+  Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+@Styles.Render("~/Error/css")
+
+<div id="container">
+  <div id="errorTitle">@Model.Title</div>
+  <div id="errorDescription">@Model.Description</div>
+</div>

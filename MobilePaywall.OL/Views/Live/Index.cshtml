@@ -1,0 +1,106 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Live tracking</title>
+  <link href="~/Content/Live/live.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+</head>
+<body>
+
+  <div id="content">
+
+    <div class="country_content">
+      <div class="country_content_head">
+        <div class="country_content_title">Austria</div>
+      </div>
+      <div class="country_content_body">
+        <div class="service_content">
+          <div class="service_overlay"></div>
+          <div class="service_logo"></div>
+          <div class="service_title">sexy-clips.club</div>
+          <div class="service_description">DE, Atnese, Greyjoy Ltd., </div>
+          <div class="service_track">
+            <canvas class="service_tacking_bar_canavs" id="ctx1"></canvas>
+            <div class="service_tacking_info">78/150</div>
+            <div class="service_tacking_lastUpdate">-50sec</div>
+          </div>
+        </div>
+        <div class="service_content">
+          <div class="service_overlay"></div>
+          <div class="service_logo"></div>
+          <div class="service_title">service.name</div>
+          <div class="service_track">
+            <canvas class="service_tacking_bar_canavs" id="ctx2"></canvas>
+            <div class="service_tacking_info">78/150</div>
+            <div class="service_tacking_lastUpdate">-50sec</div>
+          </div>
+        </div>
+        <div class="service_content">
+          <div class="service_overlay"></div>
+          <div class="service_logo"></div>
+          <div class="service_title">service.name</div>
+          <div class="service_track">
+            <canvas class="service_tacking_bar_canavs" id="ctx3"></canvas>
+            <div class="service_tacking_info">78/150</div>
+            <div class="service_tacking_lastUpdate">-50sec</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <script>
+    $(document).ready(function () {
+
+      $('.service_content').each(function () {
+        var procentige = Math.floor((Math.random() * 100) + 1);
+        var id = $(this).find('.service_tacking_bar_canavs').attr('id');
+        writeCircle(id, procentige);
+      });
+
+    });
+
+    function writeCircle(id, procentige)
+    {
+      var width = $('.service_tacking_bar_canavs').width();
+      var height = $('.service_tacking_bar_canavs').height();
+      var canvas = document.getElementById(id);
+      canvas.setAttribute('width', width); canvas.setAttribute('height', height);
+      var ctx = canvas.getContext("2d");
+
+      var boxSize = 55;
+      var border = 8;
+      var left = (width / 2);
+      var top = 125;
+      var pi = 2 / (100 / procentige);
+
+      var gradientNonActual = ctx.createLinearGradient(0, 0, 170, 0);
+      gradientNonActual.addColorStop("0.5", "rgba(0,0,0,.1)");
+      gradientNonActual.addColorStop("1.0", "rgba(0,0,0,.2)");
+
+      ctx.beginPath();
+      ctx.arc(left, top, boxSize - border, 0, 2 * Math.PI);
+      ctx.lineWidth = border;
+      ctx.strokeStyle = gradientNonActual;
+      ctx.stroke();
+
+      var gradientActual = ctx.createLinearGradient(0, 0, 170, 0);
+      gradientActual.addColorStop("0", "#00ebab");
+      gradientActual.addColorStop("0.5", "#00ebab");
+      gradientActual.addColorStop("1.0", "#05cee0");
+
+      ctx.beginPath();
+      ctx.arc(left, top, boxSize - border, 1.5 * Math.PI, (2*Math.PI) / 100 * procentige);
+      ctx.lineWidth = border;
+      ctx.strokeStyle = gradientActual;
+      ctx.stroke();
+
+    }
+
+  </script>
+
+</body>
+</html>

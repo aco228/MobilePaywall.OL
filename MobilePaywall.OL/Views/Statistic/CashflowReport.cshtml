@@ -1,0 +1,23 @@
+﻿@model CashflowStatisticModel
+@Styles.Render("~/Cashflow/css")
+
+
+<div id="cashflow_container">
+  <table>
+    <tr>
+      <td>Service</td>
+      <td>New Transactions</td>
+      <td>Subsequentrs</td>
+    </tr>
+
+    @foreach (MobilePaywall.Ol.Core.Tables.CashflowBehaviorModelTable cbmt in Model.Data)
+    {
+      <tr>
+        <td>@cbmt.Name</td>
+        <td>@cbmt.NewTransaction</td>
+        <td>@cbmt.SubsequentTransaction</td>
+      </tr>
+    }
+
+  </table>
+</div>

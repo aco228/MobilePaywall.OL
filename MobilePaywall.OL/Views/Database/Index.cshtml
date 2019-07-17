@@ -1,0 +1,142 @@
+﻿@{
+  Layout = "~/Views/_Shared/_Database.cshtml";
+}
+@Scripts.Render("~/Database/js")
+
+@{ Html.RenderPartial("~/Views/Database/_Configuration.cshtml"); }
+
+@* For statistic *@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="data_loading"></div>
+<div id="data_messgeHolder">
+  @*<div class="message">Bla bl message</div>*@
+</div>
+
+<div id="_mobileConfig">▚</div>
+<div id="window"></div>
+
+<div id="main_table">
+  <table id="table_header">
+    <tr>
+      <td>C</td>
+      <td>UserSessionCreated</td>
+      <td>Pxid</td>
+      <td>ServiceName</td>
+      <td>MobileOperator</td>
+      <td>IPAddress</td>
+      <td>Msisdn</td>
+      <td>PaymentRequestStatus</td>
+      <td>PaymentStatus</td>
+      <td>PaymentCreated</td>
+      <td>AccessPolicy</td>
+      <td>TransactionID</td>
+      <td>TransactionCreated</td>
+    </tr>
+  </table>
+  <div id="data_content"> </div>
+  <table id="table_footer">
+    <tr>
+      <td></td>
+      <td>Number</td>
+      <td id="database_count">0</td>
+      <td></td>
+      <td>Time passed</td>
+      <td id="database_time">0</td>
+      <td></td>
+      <td></td>
+      <td>Last update</td>
+      <td id="database_lastUpdate"></td>
+      <td></td>
+      <td><a id="database_collectPxids" target="_blank">Collect pxids</a></td>
+      <td><a id="database_downloadCsv" target="_blank">Download csv</a></td>
+    </tr>
+  </table>
+</div>
+
+
+<script>
+
+  var username = '@ViewBag.Username';
+  var _visual = new Visual();
+
+  function Initiate() {
+    @if (Request.QueryString["old"] != null) { <text> var useOldConfiguration = true; </text>  }
+    else                                     { <text> var useOldConfiguration = false; </text> }
+
+    _manager = new DatabaseManager(useOldConfiguration);
+
+    @if (ViewBag.AndroidSessionID != null)
+    {
+      @Html.Raw("$('#config_androidID').attr('value', '" + ViewBag.AndroidSessionID + "');");
+      @Html.Raw("_manager.load();");
+    }
+    else
+    {
+      @Html.Raw("_manager.load();");
+    }
+
+    //celavi();
+    //celavi2();
+  }
+
+  function celavi() {
+    if (username != 'nsp')
+      return;
+
+    var dataContent = $('#data_content');
+    setInterval(function () {
+      dataContent.prepend("<strong>ЋЕЛАВИИИИИИИ</strong><br/>");
+      alert('Ti si celav!');
+    }, 10000);
+  }
+
+  function celavi2() {
+    if (username != 'nsp')
+      return;
+
+    var container = $('#celavi');
+
+    var poruke = ['Како си ти ћелав!', 'Чувај врата!', 'Парне чарапе', 'Ти си ћелав', 'Имаш ћелаву главу',
+    	'Кило ћелавих риба', 'Глава ти је ћелава', 'Прећелав си', 'Тотално си ћелав', 'И даље си ћелав', 'Ти си декларисано ћелав', 'Оооо како си ћелав!!', 'Ћелавииии',
+    	'Како можеш да будеш толико ћелав?', 'Једна чарапа', 'Ти си самурај', 'Самурај ћелави', 'Ћелава чарапа', 'Шећерна бундева', 'Нешто ћелаво',
+    	'Ти си дрогаш', 'Шибаш ли се?', 'Како си дрогиран', 'Ти си ћелав и дрогриран', 'Јеси се ушибао?', 'Како се ти шибаш', 'Како се шибаш тако ћелав?', 'Какав си ти дрогаш ћелави?'];
+
+    $('body').on('click', '.celavi_poruka', function () { $(this).remove(); });
+
+    var lastID = '';
+    setInterval(function () {
+      $('#' + lastID).fadeOut(3000, function () { $(this).remove(); });
+
+      var poruka = poruke[Math.floor(Math.random() * poruke.length)];
+      lastID = ID('celavi');
+      var left = Math.floor(Math.random() * (screen.width - 250));
+      var top = Math.floor(Math.random() * (screen.height - 250));
+
+      var html = '<div class="celavi_poruka" id="' + lastID + '" style="left:' + left + 'px; top:' + top + 'px;">' + poruka + '</div>';
+      container.append(html);
+
+      var elem = $('#' + lastID);
+
+      alert('Ти си ћелав!!')
+    }, 3000);
+  }
+
+  function ID(prefix) {
+    if (typeof prefix == undefined) prefix = ""; else prefix += "_";
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 15; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return prefix + text;
+  }
+
+
+</script>
+
+@if(ViewBag.Username == "nsp")
+{
+  @*<audio autoplay loop>
+    <source src="/content/music/music1.mp3" type="audio/mp3"/>
+  </audio>*@
+}

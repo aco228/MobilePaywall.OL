@@ -1,0 +1,63 @@
+﻿#quickReportContainer{
+    padding-top:50px;
+    padding-left:10px;
+    padding-right:10px;
+    height:100%;
+    background-color: rgba(128, 128, 128, 0);
+}
+#qrcTable{
+    width:100%;
+    border-collapse:collapse;
+    text-shadow:1px 1px 0px #FFF;
+}
+#qrcTable td{ padding:10px;}
+#qrcTable tr{border: 1px solid rgb(255, 255, 255);}
+#qrcTable td:nth-child(1){ text-align:left; width:30%; }
+#qrcTable td:nth-child(2){ text-align:left; width:80%; }
+
+#tr_userSession{ background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(43,174,252,0.2)); background-attachment:fixed; } 
+#tr_identificationSUCC{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(58,210,92,0.2)); background-attachment:fixed; }
+#tr_identificationNULL{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(243,99,103,0.2)); background-attachment:fixed; }
+
+#tr_paymentRequest_Initialized{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(99,138,247,0.2));background-attachment:fixed;} 
+#tr_paymentRequest_all{ background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(43,174,252,0.2)); background-attachment:fixed; }
+#tr_paymentRequest_Complete{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(63, 214, 87, 0.16)); background-attachment:fixed; } 
+#tr_paymentRequest_Failure{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(250, 101, 99, 0.16)); background-attachment:fixed; } 
+#tr_paymentRequest_Pending{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(49,221,217,0.2));background-attachment:fixed;} 
+#tr_paymentRequest_PaymentExists{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(129,129,3,0.1)); background-attachment:fixed; }  
+
+#tr_payment_all{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(42,179,246,0.2));background-attachment:fixed;} 
+#tr_payment_Initialized{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(105,133,246,0.2));background-attachment:fixed;} 
+#tr_payment_Cancelled{background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(169,44,244,0.2));background-attachment:fixed;}
+#tr_payment_Pending{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(41,222,222,0.2));background-attachment:fixed;} 
+#tr_payment_Failed{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(245,108,107,0.2));background-attachment:fixed;} 
+#tr_payment_Successful{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(58,217,94,0.2));background-attachment:fixed;} 
+
+#tr_transaction{background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(54, 255, 0, 0.19)); background-attachment:fixed; }
+#tr_subsequent{ background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(34, 136, 14, 0.12)); background-attachment:fixed; } 
+
+.tr_separator td{padding:6px!important;background-color: rgba(0, 0, 0, 0.23);}
+.span_tr_status{
+    font-size:11px;
+    padding:5px 10px;
+    border-radius:5px;
+    font-weight:bold;
+    margin-right:10px;
+    text-shadow: 1px 1px 3px rgb(0, 0, 0);
+    color: #F7F7F7;
+    opacity:.8;
+    width:100px!important; 
+    display:inline-block; text-align:center;
+}
+.span_tr_status_Complete{background-color: #16D43C;}
+.span_tr_status_Failed{background-color: rgb(255, 76, 76);}
+.span_tr_status_PaymentExists{background-color: #9E9E00;}
+.span_tr_status_Success{background-color: #16D43C;}
+.span_tr_status_Peding, .span_tr_status_Pending{background-color: #00DCDA;}
+.span_tr_status_Count{ background-color: #00A4FF; }
+.span_tr_status_Cancel{background-color: #9A00FF;}
+.span_tr_status_Initialized{background-color: #4771FF;}
+
+.procentage{
+    font-size:13px; background-color:yellow; padding:2px; opacity:.8; display:none;
+}

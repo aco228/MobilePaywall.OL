@@ -1,0 +1,139 @@
+﻿
+body{
+  /* background: linear-gradient(to bottom, #e2b7e2, #d8e6ea); */
+  /* background-image:url(http://blog.hdwallsource.com/wp-content/uploads/2014/11/gradient-background-26046-26731-hd-wallpapers.jpg.png)!important; */
+  background-position:center;
+  background-size:cover;
+  background: #525252;
+    transition:all 2s;
+}
+.openclose{
+  cursor:hand; cursor:pointer;
+}
+.block {
+    background-color: white;
+    margin:3px 10px;;
+    padding:0px;
+    /* border-radius:10px; */
+    position:relative;
+    border:1px solid rgba(0,0,0,.5);
+    overflow:hidden;
+    /* border-bottom:0px; */
+    box-shadow: 0px 0px 20px rgba(0,0,0,.1);
+    transition:opacity .5s;
+}
+.block_closed:hover{ opacity:.9;}
+.block_closed{ 
+  height:35px; overflow:hidden; width:70%; margin-left:15%; 
+  border-radius:4px;
+  opacity:.8;
+}
+.block_header {
+  background-color: rgba(171, 171, 171, 0.1);
+  background: linear-gradient(to right, rgb(255, 248, 189), #e6e8ca);
+  padding:5px;
+  font-size:13px;
+  text-shadow: 1px 1px 1px white;
+  color: #79710b;
+  box-shadow: 0px 0px 15px #fef7be;
+  padding:10px; 
+  padding-left:100px;
+}
+.block_icon {
+  position:absolute; width:25px; height:25px; 
+  top:5px; left:5px;
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.block_icon_clickInformations{ background-image:url('../../Images/report/i_block_info.png'); }
+.block_icon_paywall{ background-image:url('../../Images/report/i_block_paywall.png'); }
+.block_icon_cashflow{ background-image:url('../../Images/report/i_block_cashflow.png'); }
+.block_icon_requests{ background-image:url('../../Images/report/i_block_requests.png'); }
+.block_icon_overlay{ background-image:url('../../Images/report/i_block_overlay.png'); }
+.block_icon_location{ background-image:url('../../Images/report/i_block_location.png'); }
+.block_icon_callback{ background-image:url('../../Images/report/i_block_callback.png'); }
+
+.block_loadTime:hover{ opacity:1; }
+.block_loadTime{
+  width:50px;
+  text-align:center;
+  position:absolute;
+  left:40px;
+  top:10px;
+  font-size:10px;
+  background-color: #E6FF00;
+  padding:2px 3px;
+  font-weight:bold;
+  opacity:.5;
+  display:none;
+}
+.block_loading {
+    width:18px; height:18px; position:absolute;
+    background-color:black; 
+    top:7px; right:10px;
+    background-image:url('../../Images/preloaders/712.GIF');
+    background-size:contain;
+    background-color:rgba(0,0,0,0);
+    background-position:center;
+    display:none;
+}
+.block_body { padding:10px; }
+
+.block_body_menu{ font-size:13px; width:100%; height:30px; }
+.block_menu_item:hover{opacity:1;}
+.block_menu_item{
+  background-color: #f3f0c4;
+  float:left;
+  padding: 2px 15px;
+  cursor:hand;
+  cursor:pointer;
+  opacity:.7;
+}
+
+.document_closed{ height: 27px; overflow:hidden; }
+.document {
+    background-color: #f4ffea;
+    padding:0px 0px;
+    margin:2px;
+    border: 1px solid #ddec00;
+}
+.document_header {
+    font-size:13px;
+    background: linear-gradient(to right, #fdf7e2, #f3fdbe);
+    padding:5px;
+    color: #77620f;
+    text-shadow:1px 1px 1px white;
+}
+.document_body {
+}
+.document_body pre{ margin-top:2px; font-size:13px;}
+
+.table_data{
+  width:100%; max-width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+.table_data td {border: 1px solid #EAEACC;  padding: 2px;}
+.table_data tr td:nth-child(1){ width: 13%!important; text-align:center; }
+.table_data tr td:nth-child(2){ width: 87%!important;}
+
+#info_0, #info_1, #info_2, #info_3, #info_4, #info_5, #info_6, #info_7, #info_8, #info_9, #info_10, #info_11, #info_12, #info_13{ background-color: rgba(180, 162, 255, 0.12); }
+#info_14, #info_15,#info_16,#info_17,#info_18, #info_19, #info_20, #info_21,#info_22, #info_23, #info_24, #info_25{ background-color: rgba(180, 222, 255, 0.12); } 
+#info_26, #info_27, #info_28,#info_29, #info_30, #info_31, #info_32, #info_33 { background-color: rgba(220, 152, 155, 0.12); } 
+#info_33, #info_34, #info_35, #info_36, #info_37, #info_38, #info_39,#info_40 {background-color: rgba(161, 255, 58, 0.12);} 
+#info_41, #info_42, #info_43, #info_44, #info_45{background-color: rgba(119, 216, 245, 0.12);} 
+#info_46,#info_47, #info_48, #info_49, #info_50, #info_51, #info_52 {background-color: rgba(255, 160, 248, 0.12);} 
+#info_53, #info_54, #info_55, #info_56, #info_57, #info_58{background-color: rgba(0, 255, 102, 0.12);} 
+
+/* Top OLCache table fix */
+#table_header{ position:initial!important; }
+#tableData { margin:0px!important; }
+
+#_cacheInformations{height:40px;}
+
+#clickBasicInformations{
+  width:70%; margin-left:15%; margin-top:10px;
+  height: 125px;
+}

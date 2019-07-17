@@ -1,0 +1,16 @@
+﻿#cashflow_container{
+
+}
+
+#cashflow_container table{
+    width:100%;
+    border-collapse:collapse;
+    text-align:center;
+    font-size:12px;
+}
+
+#cashflow_container table tr:nth-child(odd) {background-color: rgba(255, 199, 144, 0.12);}
+#cashflow_container table tr td{ padding:2px; }
+#cashflow_container table tr:first-child {background-color: #FFFF90;}
+#cashflow_container table tr:first-child td { padding: 3px; }
+#cashflow_container table tr td:first-child{ width:10%; }

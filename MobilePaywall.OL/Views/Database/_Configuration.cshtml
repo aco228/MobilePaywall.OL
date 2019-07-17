@@ -1,0 +1,331 @@
+﻿@{
+  List<MobilePaywall.Ol.Core.Tables.MobileOperatorTable> _mobileOperators = new MobilePaywall.Ol.Core.Managers.MobileOperatorManager().Query();
+
+  DateTime yesterday = DateTime.Now.AddDays(-1);
+  DateTime tomorrow = DateTime.Now.AddDays(1);
+
+  DateTime from = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, 18, 0, 0);
+  DateTime to = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 7, 0, 0);
+
+  string _limit = Request.Cookies["_limit"] != null ? Request.Cookies.Get("_limit").Value.ToString() : "100";
+  string _country = Request.Cookies["_country"] != null ? Request.Cookies.Get("_country").Value.ToString() : "";
+  string _service = Request.Cookies["_service"] != null ? Request.Cookies.Get("_service").Value.ToString() : "";
+  string _useOLReference = Request.Cookies["_useOLReference"] != null && Request.Cookies.Get("_useOLReference").Value.ToString() == "0" ? "" : "checked";
+  string _paymentStatus = Request.Cookies["_paymentStatus"] != null ? Request.Cookies.Get("_paymentStatus").Value.ToString() : "";
+  string _paymentRequest = Request.Cookies["_paymentRequest"] != null ? Request.Cookies.Get("_paymentRequest").Value.ToString() : "";
+  string _payment = Request.Cookies["_payment"] != null ? Request.Cookies.Get("_payment").Value.ToString() : "";
+  string _transaction = Request.Cookies["_transaction"] != null ? Request.Cookies.Get("_transaction").Value.ToString() : "";
+  string _refreshTime = Request.Cookies["_refreshTime"] != null ? Request.Cookies.Get("_refreshTime").Value.ToString() : "30";
+  string _refreshEnabled = Request.Cookies["_refreshEnabled"] != null && Request.Cookies.Get("_refreshEnabled").Value.ToString().Equals("1") ? "checked" : "";
+  string _groupStats = Request.Cookies["_groupStats"] != null ? Request.Cookies.Get("_groupStats").Value.ToString() : "";
+  string _useSequentalSearch = Request.Cookies["_useSequentalSearch"] != null && Request.Cookies.Get("_useSequentalSearch").Value.ToString() == "0" ? "" : "checked";
+}
+<div id="config">
+  <table>
+    <tr>
+      <td>Limit</td>
+      <td> <input type="number" id="config_limit" value="@_limit" /> </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>From/To</td>
+      <td> <input type="text" id="config_from" value="@from.ToString("yyyy-MM-dd HH:mm:ss")" /> </td>
+      <td> <input type="text" id="config_to" value="@to.ToString("yyyy-MM-dd HH:mm:ss")" /> </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td id="dateManipulation">
+        <a class="dateManipulate" value="dayBefore">Day -</a> 
+        <a class="dateManipulate" value="today">Today</a> 
+        <a class="dateManipulate dateManipulateSpace" value="dayAfter">Day +</a> 
+        <a class="dateManipulate" value="weekBefore">Week -</a> 
+        <a class="dateManipulate" value="week">This week</a> 
+        <a class="dateManipulate dateManipulateSpace" value="weekAfter">Week -</a> 
+        <a class="dateManipulate" value="monthBefore">Month -</a> 
+        <a class="dateManipulate" value="month">This month</a> 
+        <a class="dateManipulate dateManipulateSpace" value="monthAfter">Month +</a>
+        <a class="dateManipulate" value="yearBefore">Year -</a> 
+        <a class="dateManipulate" value="year">This year</a> 
+        <a class="dateManipulate" value="yearAfter">Year +</a>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Country</td>
+      <td> 
+        <div class="input_delete">X</div>
+        <input type="text" id="config_country" value="@_country" placeholder="rs | de | at | !pt" /> 
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Mobile Operator</td>
+      <td>
+        <select id="config_mo">
+          <option id="config_mo_default" value="-1" country="-1" countryid="-1">NULL</option>
+          @foreach(MobilePaywall.Ol.Core.Tables.MobileOperatorTable mo in _mobileOperators)
+          {
+            <option value="@mo.ID" country="@mo.Country" countryID="@mo.CountryID" class="option_changed">@mo.Name</option>
+          }
+        </select>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Service</td>
+      <td> 
+        <div class="input_delete">X</div>
+        <input type="text" id="config_service" value="@_service" placeholder="porntraum | geilevids | !fuckclips" /> 
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Msisdn</td>
+      <td> 
+        <div class="input_delete">X</div>
+        <input type="text" id="config_msisdn" value="" placeholder="436763802378 | !38268262810" /> 
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Pxid</td>
+      <td> 
+        <div class="input_delete">X</div>
+        <input type="text" id="config_pxid" value="" placeholder="115215454 | !115215455" /> 
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Ip address</td>
+      <td> 
+        <div class="input_delete">X</div>
+        <input type="text" id="config_ip" value="" placeholder="213.162.68.150 | !18.256.1.0" /> 
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Referrer contains</td>
+      <td> 
+        <div class="input_delete">X</div>
+        <input type="text" id="config_contains" value="" placeholder="tmpl=1 | tmpl=0 | tp=f | th=1" /> 
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Use OL refferer</td>
+      <td> 
+        <input type="checkbox" id="config_olreference" @_useOLReference /> 
+        Use sequential search
+        <input type="checkbox" id="config_sequentialSearch" @_useSequentalSearch /> 
+      
+      </td>
+      <td> <input type="text" id="config_refferer" value="http://pornamatertube.mobi" placeholder="" /> </td>
+    </tr>
+
+    <tr>
+      <td>Payment status</td>
+      <td>
+        <select id="config_paymentStatus">
+          <option value="-1">Default</option>
+          <option value="1" class="option_changed">Initilized</option>
+          <option value="2" class="option_changed">Pending</option>
+          <option value="3" class="option_changed">Success</option>
+          <option value="4" class="option_changed">Failed</option>
+          <option value="5" class="option_changed">Canceled</option>
+        </select>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Payment request</td>
+      <td>
+        <select id="config_paymentRequest">
+          <option value="-1">Default</option>
+          <option value="0" class="option_changed">NULL</option>
+          <option value="1" class="option_changed">NOT NULL</option>
+        </select>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Payment</td>
+      <td>
+        <select id="congif_payment">
+          <option value="-1">Default</option>
+          <option value="0" class="option_changed">NULL</option>
+          <option value="1" class="option_changed">NOT NULL</option>
+        </select>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Transaction</td>
+      <td>
+        <select id="congif_transaction">
+          <option value="-1">Default</option>
+          <option value="0" class="option_changed">NULL</option>
+          <option value="1" class="option_changed">NOT NULL</option>
+        </select>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Based on date of</td>
+      <td>
+        <select id="config_basedOnDate">
+          <option value="true" change_id="transactionUserSessionCreated" change_id_display="none">User session</option>
+          <option value="false" class="option_changed" change_id="transactionUserSessionCreated" change_id_display="table-row">Transaction</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr id="transactionUserSessionCreated" style="display:none">
+      <td>When user session is created </td>
+      <td>
+        @{
+          DateTime tus_reference = DateTime.Now.AddDays(-7);
+          DateTime tus_from = new DateTime(tus_reference.Year, tus_reference.Month, tus_reference.Day, 0, 0, 0);
+          tus_reference = tus_reference.AddDays(1);
+          DateTime tus_to = new DateTime(tus_reference.Year, tus_reference.Month, tus_reference.Day, 0, 0, 0);
+        }
+        <input type="text" id="config_tus_from" value="@tus_from.ToString("yyyy-MM-dd HH:mm:ss")" style="width:40%; margin-right:5%;" />
+        <input type="text" id="config_tus_to" value="@tus_to.ToString("yyyy-MM-dd HH:mm:ss")" style="width:40%;" /> 
+      </td>
+      <td> <input type="checkbox" id="config_tus_use"/> - Use this date </td>
+    </tr>
+
+    <tr>
+      <td>Refresh after</td>
+      <td>
+        <input type="number" min="5" value="@_refreshTime" id="config_refresh" style="width:40%; margin-right:5%;" /> seconds;
+      </td>
+      <td><input type="checkbox" id="config_enableRefresh" @_refreshEnabled /> - Enable refresh</td>
+    </tr>
+
+    <tr>
+      <td>AndroidSessionID</td>
+      <td>
+        <input type="text" value="" id="config_androidID"/>
+      </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Statistic</td>
+      <td>
+        <select id="config_stats">
+          <option value="HOUR">Hour</option>
+          <option value="WEEK">Week</option>
+          <option value="MONTH">Month</option>
+          <option value="YEAR">Year</option>
+        </select>
+      </td>
+      <td>
+        Press F2 to get stats
+      </td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">F2</span> </td>
+      <td>Statistic based on date, mobile operator, service</td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">F3</span> </td>
+      <td><strong>(NEW CACHE ENGINE) </strong>Statistic based on date, mobile operator, service </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">D</span> </td>
+      <td>Get database informations (192.168.11.104)</td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">Q</span> </td>
+      <td>Quick report based on date, mobile operator, service, country, referrer contains</td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">R</span> || <span class="keyboard">P</span> || <span class="keyboard">T</span> </td>
+      <td>Open only values with payment/pReqeust/transaction not NULL or return to default</td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">C</span> </td>
+      <td>See transactions on Cashflow side. (with only service filter)</td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td> <span class="keyboard">Del</span> </td>
+      <td>Return all filters to default and load</td>
+      <td></td>
+    </tr>
+
+    <tr id="mobileFilterHolder" style="display:none">
+      <td> </td>
+      <td> <input type="button" id="mobileFilter" value="Filter" />  </td>
+      <td></td>
+    </tr>
+
+    @*<tr>
+      <td></td>
+      <td>
+        <button id="config_charts">See charts</button>
+      </td>
+      <td>
+        Charts will be based on date you entered
+      </td>
+    </tr>*@
+
+  </table>
+</div>
+@if (!string.IsNullOrEmpty(_paymentStatus))
+{
+  <script>
+    $('#config_paymentStatus option[value=@_paymentStatus]').attr('selected', 'selected');
+  </script>
+}
+@if (!string.IsNullOrEmpty(_paymentRequest))
+{
+  <script>
+    $('#config_paymentRequest option[value=@_paymentRequest]').attr('selected', 'selected');
+  </script>
+}
+@if (!string.IsNullOrEmpty(_payment))
+{
+  <script>
+    $('#congif_payment option[value=@_payment]').attr('selected', 'selected');
+  </script>
+}
+@if (!string.IsNullOrEmpty(_transaction))
+{
+  <script>
+    $('#congif_transaction option[value=@_transaction]').attr('selected', 'selected');
+  </script>
+}
+@if (!string.IsNullOrEmpty(_groupStats))
+{
+  <script>
+    $('#congif_groupStats option[value=@_groupStats]').attr('selected', 'selected');
+  </script>
+}

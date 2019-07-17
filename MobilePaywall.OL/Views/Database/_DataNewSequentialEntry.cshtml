@@ -1,0 +1,58 @@
+﻿@model DataTableModel
+
+@foreach (MobilePaywall.Ol.Core.Tables.EntranceTableNew table in Model.NewData)
+{
+  <tr class="tr_cache_tableEntry tr_cache_tableEntryNonDisplay tr_@table.PaymentStatus"
+      userSessionID="@table.UserSessionID"
+      identificationSessionGuid="@table.IdentificationSessionGuid"
+      date="@table.SessionCreated.ToString()"
+      olCacheID="@table.OLCacheID"
+      @*pxid="@table.Pxid"
+        ip="@table.IPAddress"*@
+      ondblclick="_manager.doubleClick(this);">
+    <td>
+      @if (!string.IsNullOrEmpty(table.CountryCode))
+      {
+        <img src="@string.Format("/Images/_Flags/{0}.png", table.CountryCode.ToLower())" alt="@table.CountryName" title="@table.CountryName" />
+      }
+    </td>
+    <td class="@if (!table.SessionCreated.HasValue) { @Html.Raw("td_null"); }">
+      @ViewDateConverter.GetDate(table.SessionCreated)
+    </td>
+    <td class="@if (string.IsNullOrEmpty(table.Pxid)) { @Html.Raw("td_null"); } usPxid">@table.Pxid</td>
+    <td class="@if (string.IsNullOrEmpty(table.ServiceName)) { @Html.Raw("td_null"); }">
+      @table.ServiceName
+    </td>
+    <td class="@if (string.IsNullOrEmpty(table.MobileOperator)) { @Html.Raw("td_null"); }">
+      @table.MobileOperator
+    </td>
+    <td class="@if (string.IsNullOrEmpty(table.IPAddress)) { @Html.Raw("td_null"); } usIPAddress">@table.IPAddress</td>
+    <td class="@if (string.IsNullOrEmpty(table.Msisdn)) { @Html.Raw("td_null"); }">
+      @table.Msisdn
+    </td>
+    <td class="@if (string.IsNullOrEmpty(table.PaymentRequestStatus)) { @Html.Raw("td_null"); }">
+      @table.PaymentRequestStatus
+    </td>
+    <td class="@if (string.IsNullOrEmpty(table.PaymentStatus)) { @Html.Raw("td_null"); }">
+      @table.PaymentStatus
+    </td>
+    <td class="@if (!table.PaymentCreated.HasValue) { @Html.Raw("td_null"); }">
+      @ViewDateConverter.GetDate(table.PaymentCreated)
+    </td>
+    <td class="@if (!table.PaymentContentAccessPolicyID.HasValue) { @Html.Raw("td_null"); }">
+      @table.PaymentContentAccessPolicyIDString
+    </td>
+    <td class="@if (!table.TransactionID.HasValue) { @Html.Raw("td_null"); } td_transaction">
+      @table.TransactionIDString
+
+    </td>
+    <td class="@if (!table.TransactionCreated.HasValue) { @Html.Raw("td_null"); }">
+      @ViewDateConverter.GetDate(table.TransactionCreated)
+    </td>
+  </tr>
+}
+
+
+
+
+

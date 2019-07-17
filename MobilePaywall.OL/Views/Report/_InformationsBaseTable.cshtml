@@ -1,0 +1,16 @@
+﻿@model InformationsBaseTableModel
+
+@for (int r = 0; r < Model.Container.RowsCount; r++)
+{
+  <div class="informationBodyItem">
+    <table class="inromationTable">
+      @for (int i = 0; i < Model.Container.ColumnCount; i++)
+      {
+        <tr>
+          <td>@Model.Container.ColumnNames[i]</td>
+          <td>@Model.Container.GetString(Model.Container.ColumnNames[i], r)</td>
+        </tr>
+      }
+    </table>
+  </div>
+}

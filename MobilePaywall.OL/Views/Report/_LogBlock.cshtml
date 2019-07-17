@@ -1,0 +1,26 @@
+﻿@model LogModel
+@{
+  List<string> excludeTables = new List<string>();
+  excludeTables.Add("MobilePaywall.Data.Sql.VideoContentDetailManager");
+  excludeTables.Add("MobilePaywall.Data.Sql.LanguageManager");
+  excludeTables.Add("MobilePaywall.Data.Sql.PaymentContentAccessPolicyMapManager");
+  
+}
+
+@foreach (MobilePaywall.Ol.Core.Tables.WebLogTable table in Model.Tables)
+{
+  if (excludeTables.Contains(table.Logger)) { continue; }
+  
+  <div class="document document_closed">
+    <div class="document_header openclose">
+      <strong title="@ViewDateConverter.PrintDate(table.Date)">@ViewDateConverter.GetDate(table.Date)</strong>
+      @table.Logger
+    </div>
+    <div class="document_body">
+      <pre><code class="xml">
+          @table.Message
+          <br/>
+        </code></pre>
+    </div>
+  </div>
+}
